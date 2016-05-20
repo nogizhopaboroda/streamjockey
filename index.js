@@ -21,23 +21,26 @@ var rules = {
     },
     current_media_title: function(){}
   },
-  //"vk.com/audios": {
-    //play: function(){
-      //document.querySelector('#ac_play').click();
-      //return 'play';
-    //},
-    //pause: function(){
-      //document.querySelector('#ac_play').click();
-      //return 'pause';
-    //},
-    //next: function(){},
-    //prev: function(){},
-    //is_playing: function(){
-      //return document.querySelector('#ac_play').classList.contains('playing');
-    //},
-    //current_media_title: function(){}
-  //}
+  "vk.com/audios": {
+    play: function(){
+      document.querySelector('#ac_play').click();
+      return 'play';
+    },
+    pause: function(){
+      document.querySelector('#ac_play').click();
+      return 'pause';
+    },
+    next: function(){},
+    prev: function(){},
+    is_playing: function(){
+      return document.querySelector('#ac_play').classList.contains('playing');
+    },
+    current_media_title: function(){}
+  }
 };
+
+var state = null;
+var active = null;
 
 function build_script(site, func){
   return [
@@ -66,12 +69,44 @@ function exec_script(site, func){
   });
 }
 
+function get_state(){
+  return Promise.map(Object.keys(rules), function(site){
+    var func = rules[site].is_playing;
+    return exec_script(site, func).then(function(data){
+      data.is_playing = (data.output === 'true');
+      return data;
+    });
+  });
+}
+
 function play_pause(){
-  Promise.all(Object.keys(rules).map(function(site){
-    var func = rules[site].play;
-    return exec_script(site, func);
-  })).then(function(data){
-    console.log(data);
+  get_state()
+  .then(function(data){
+    var active_sites = data.filter(function(item){
+      return item.is_playing;
+    });
+    if(active_sites.length){
+      return Promise.map(active_sites, function(item){
+        return exec_script(item.site, rules[item.site].pause);
+      }).then(function(){
+        return (state = active_sites);
+      });
+    } else if(state){
+      return Promise.map(state, function(item){
+        return exec_script(item.site, rules[item.site].play).then(function(response){
+          return Object.assign({}, response, { is_playing: true });
+        });
+      });
+    } else {
+      var item = data[0];
+      return exec_script(item.site, rules[item.site].play).then(function(){
+        return (state = [item]);
+      });
+    }
+  })
+  .then(function(data){
+    //all done
+    console.log(arguments);
   });
 }
 
