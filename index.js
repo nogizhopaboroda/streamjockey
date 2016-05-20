@@ -1,37 +1,45 @@
 var applescript = require('applescript');
+var Promise = require('bluebird');
+var mediakeys = require('mediakeys').listen();
+
+var browsers = ["Google Chrome"];
 
 var rules = {
-  //"mixcloud.com": {
-    //play: function(){
-      //document.querySelector('.player-control').click();
-      //return 'play';
-    //},
-    //pause: function(){
-      //document.querySelector('.player-control').click();
-      //return 'pause';
-    //},
-    //next: function(){},
-    //prev: function(){},
-    //is_playing: function(){},
-    //current_media_title: function(){}
-  //},
-  "vk.com/audios": {
+  "mixcloud.com": {
     play: function(){
-      document.querySelector('#ac_play').click();
+      document.querySelector('.player-control').click();
       return 'play';
     },
     pause: function(){
-      document.querySelector('#ac_play').click();
+      document.querySelector('.player-control').click();
       return 'pause';
     },
     next: function(){},
     prev: function(){},
-    is_playing: function(){},
+    is_playing: function(){
+      return document.querySelector('.player-control').classList.contains('pause-state');
+    },
     current_media_title: function(){}
-  }
+  },
+  //"vk.com/audios": {
+    //play: function(){
+      //document.querySelector('#ac_play').click();
+      //return 'play';
+    //},
+    //pause: function(){
+      //document.querySelector('#ac_play').click();
+      //return 'pause';
+    //},
+    //next: function(){},
+    //prev: function(){},
+    //is_playing: function(){
+      //return document.querySelector('#ac_play').classList.contains('playing');
+    //},
+    //current_media_title: function(){}
+  //}
 };
 
-var build_script = function(site, func){
+function build_script(site, func){
   return [
   'tell application "Google Chrome"',
     'set window_list to every window',            // get the windows
@@ -50,29 +58,34 @@ var build_script = function(site, func){
   ].join('\n');
 }
 
-
-var play_pause = function(){
-  for(var site in rules){
-    var func = rules[site].play;
+function exec_script(site, func){
+  return new Promise(function(resolve, reject){
     applescript.execString(build_script(site, func), function(err, rtn) {
-      if (err) {
-        // Something went wrong!
-        console.log(err);
-      }
-      console.log(rtn);
+      resolve({ site: site, output: rtn, error: err });
     });
-  }
+  });
+}
+
+function play_pause(){
+  Promise.all(Object.keys(rules).map(function(site){
+    var func = rules[site].play;
+    return exec_script(site, func);
+  })).then(function(data){
+    console.log(data);
+  });
 }
 
 
-var mediakeys = require('mediakeys').listen();
 mediakeys.on('play', function () {
     console.log('play/pause');
     play_pause();
-})
+});
 mediakeys.on('next', function () {
     console.log('next');
-})
+});
 mediakeys.on('back', function () {
     console.log('back');
-})
+});
+
+
+console.log('listening...');
