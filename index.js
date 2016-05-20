@@ -40,7 +40,6 @@ var rules = {
 };
 
 var state = null;
-var active = null;
 
 function build_script(site, func){
   return [
@@ -87,38 +86,36 @@ function play_pause(){
     });
     if(active_sites.length){
       return Promise.map(active_sites, function(item){
-        return exec_script(item.site, rules[item.site].pause);
-      }).then(function(){
-        return (state = active_sites);
-      });
-    } else if(state){
-      return Promise.map(state, function(item){
-        return exec_script(item.site, rules[item.site].play).then(function(response){
-          return Object.assign({}, response, { is_playing: true });
+        return exec_script(item.site, rules[item.site].pause).then(function(response){
+          return Object.assign({}, response, { is_playing: false });
         });
       });
-    } else {
-      var item = data[0];
-      return exec_script(item.site, rules[item.site].play).then(function(){
-        return (state = [item]);
-      });
     }
+    !state && (state = data.slice(0, 1));
+    return Promise.map(state, function(item){
+      return exec_script(item.site, rules[item.site].play).then(function(response){
+        return Object.assign({}, response, { is_playing: true });
+      });
+    });
+  })
+  .then(function(data){
+    return (state = data);
   })
   .then(function(data){
     //all done
-    console.log(arguments);
+    console.log(data, state); //here data === state
   });
 }
 
 
-mediakeys.on('play', function () {
+mediakeys.on('play', function(){
     console.log('play/pause');
     play_pause();
 });
-mediakeys.on('next', function () {
+mediakeys.on('next', function(){
     console.log('next');
 });
-mediakeys.on('back', function () {
+mediakeys.on('back', function(){
     console.log('back');
 });
 
