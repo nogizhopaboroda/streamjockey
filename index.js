@@ -22,9 +22,9 @@ try {
 
 var state = null;
 
-function build_script(site, func){
+function build_script(site, func, browser){
   return [
-  'tell application "Google Chrome"',
+  'tell application "' + browser + '"',
     'set window_list to every window',            // get the windows
     'repeat with the_window in window_list',      // for every window
        'set tab_list to every tab in the_window', // get the tabs
@@ -41,10 +41,10 @@ function build_script(site, func){
   ].join('\n');
 }
 
-function exec_script(site, func){
+function exec_script(site, func, browser){
   return new Promise(function(resolve, reject){
-    applescript.execString(build_script(site, func), function(err, rtn) {
-      resolve({ site: site, output: rtn, error: err });
+    applescript.execString(build_script(site, func, browser), function(err, rtn) {
+      resolve({ site: site, browser: browser, output: rtn, error: err });
     });
   });
 }
@@ -52,9 +52,21 @@ function exec_script(site, func){
 function get_state(){
   return Promise.map(Object.keys(rules), function(site){
     var func = rules[site].is_playing;
-    return exec_script(site, func).then(function(data){
-      data.is_playing = (data.output === 'true');
-      return data;
+    return Promise.map(browsers, function(browser){
+      return exec_script(site, func, browser).then(function(data){
+        data.is_playing = (data.output === 'true');
+        return data;
+      });
+    });
+  })
+  .then(function(data){
+    return data.reduce(function(acc, item){
+      return acc.concat(item);
+    }, []);
+  })
+  .then(function(data){
+    return data.filter(function(item){
+      return !!item.output;
     });
   });
 }
@@ -71,7 +83,8 @@ function play_pause(){
       function(item){
         return exec_script(
           item.site,
-          rules[item.site][item.is_playing ? 'pause' : 'play']
+          rules[item.site][item.is_playing ? 'pause' : 'play'],
+          item.browser
         ).then(function(response){
           return Object.assign({}, response, { is_playing: !item.is_playing });
         });
@@ -84,7 +97,13 @@ function play_pause(){
   .then(function(data){
     //all done
     data.forEach(function(item){
-      console.log([item.is_playing ? 'playing' : 'stopping'].concat(item.site).join(' '));
+      console.log([
+        item.is_playing ? 'playing' : 'stopping',
+        item.site,
+        'in browser',
+        item.browser
+        ].join(' ')
+      );
     });
   });
 }
