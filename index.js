@@ -1,6 +1,10 @@
 var applescript = require('applescript');
 var Promise = require('bluebird');
 var mediakeys = require('mediakeys').listen();
+var help = require('./help');
+
+(process.argv[2] === '-h' || process.argv[2] === '--help') && help.print_help();
+(process.argv[2] === '-v' || process.argv[2] === '--version') && help.print_version();
 
 var browsers = ["Google Chrome"];
 
