@@ -84,26 +84,25 @@ function play_pause(){
     var active_sites = data.filter(function(item){
       return item.is_playing;
     });
-    if(active_sites.length){
-      return Promise.map(active_sites, function(item){
-        return exec_script(item.site, rules[item.site].pause).then(function(response){
-          return Object.assign({}, response, { is_playing: false });
+    active_sites.length || (active_sites = null);
+    return Promise.map(
+      active_sites || state || data.slice(0, 1),
+      function(item){
+        return exec_script(
+          item.site,
+          rules[item.site][item.is_playing ? 'pause' : 'play']
+        ).then(function(response){
+          return Object.assign({}, response, { is_playing: !item.is_playing });
         });
-      });
-    }
-    !state && (state = data.slice(0, 1));
-    return Promise.map(state, function(item){
-      return exec_script(item.site, rules[item.site].play).then(function(response){
-        return Object.assign({}, response, { is_playing: true });
-      });
-    });
+      }
+    );
   })
   .then(function(data){
     return (state = data);
   })
   .then(function(data){
     //all done
-    console.log(data, state); //here data === state
+    console.log(data); //here data === state
   });
 }
 
