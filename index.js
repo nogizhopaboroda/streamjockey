@@ -4,40 +4,17 @@ var mediakeys = require('mediakeys').listen();
 
 var browsers = ["Google Chrome"];
 
-var rules = {
-  "mixcloud.com": {
-    play: function(){
-      document.querySelector('.player-control').click();
-      return 'play';
-    },
-    pause: function(){
-      document.querySelector('.player-control').click();
-      return 'pause';
-    },
-    next: function(){},
-    prev: function(){},
-    is_playing: function(){
-      return document.querySelector('.player-control').classList.contains('pause-state');
-    },
-    current_media_title: function(){}
-  },
-  "vk.com/audios": {
-    play: function(){
-      document.querySelector('#ac_play').click();
-      return 'play';
-    },
-    pause: function(){
-      document.querySelector('#ac_play').click();
-      return 'pause';
-    },
-    next: function(){},
-    prev: function(){},
-    is_playing: function(){
-      return document.querySelector('#ac_play').classList.contains('playing');
-    },
-    current_media_title: function(){}
-  }
-};
+var rules_file =
+  process.argv[2] ||
+  (process.env.HOME + '/.sjrc.json') ||
+  (process.env.USERPROFILE + '/.sjrc.json');
+
+try {
+  var rules = require(rules_file);
+} catch(e) {
+  console.log("can't load settings file: ".concat(rules_file));
+  process.exit(0);
+}
 
 var state = null;
 
@@ -102,13 +79,14 @@ function play_pause(){
   })
   .then(function(data){
     //all done
-    console.log(data); //here data === state
+    data.forEach(function(item){
+      console.log([item.is_playing ? 'playing' : 'stopping'].concat(item.site).join(' '));
+    });
   });
 }
 
 
 mediakeys.on('play', function(){
-    console.log('play/pause');
     play_pause();
 });
 mediakeys.on('next', function(){
@@ -118,5 +96,4 @@ mediakeys.on('back', function(){
     console.log('back');
 });
 
-
-console.log('listening...');
+console.log('listening...\n');
