@@ -6,7 +6,7 @@ var help = require('./help');
 (process.argv[2] === '-h' || process.argv[2] === '--help') && help.print_help();
 (process.argv[2] === '-v' || process.argv[2] === '--version') && help.print_version();
 
-var browsers = ["Google Chrome"];
+var browsers = ["Google Chrome", "Safari"];
 
 var rules_file =
   process.argv[2] ||
@@ -31,7 +31,9 @@ function build_script(site, func, browser){
        'repeat with the_tab in tab_list',         // for every tab
           'if url of the_tab contains "' + site + '" then',
               'tell the_tab',
-                'set output to execute javascript "(' + func.toString() + ')()"',
+                browser === "Google Chrome"
+                ? 'set output to execute javascript "(' + func.toString() + ')()"'
+                : 'set output to do JavaScript "(' + func.toString() + ')()"',
                 'return output',
               'end tell',
           'end if',
