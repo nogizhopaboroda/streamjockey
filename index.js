@@ -43,10 +43,20 @@ function build_script(site, func, browser){
   ].join('\n');
 }
 
+function browser_is_running_script(browser){
+  return 'return application "' + browser + '" is running';
+}
+
 function exec_script(site, func, browser){
   return new Promise(function(resolve, reject){
-    applescript.execString(build_script(site, func, browser), function(err, rtn) {
-      resolve({ site: site, browser: browser, output: rtn, error: err });
+    applescript.execString(browser_is_running_script(browser), function(error, is_running) {
+      if(is_running === 'true'){
+        applescript.execString(build_script(site, func, browser), function(err, rtn) {
+          resolve({ site: site, browser: browser, output: rtn, error: err });
+        });
+        return;
+      }
+      resolve({ site: site, browser: browser, output: null, error: error });
     });
   });
 }
