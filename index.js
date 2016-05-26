@@ -8,10 +8,8 @@ var help = require('./help');
 
 var browsers = ["Google Chrome", "Safari"];
 
-var rules_file =
-  process.argv[2] ||
-  (process.env.HOME + '/.sjrc.json') ||
-  (process.env.USERPROFILE + '/.sjrc.json');
+var rules_file = process.argv[2] ||
+                 (process.env.HOME || process.env.USERPROFILE).concat('/.sjrc.js');
 
 try {
   var rules = require(rules_file);
