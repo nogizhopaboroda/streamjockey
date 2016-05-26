@@ -21,7 +21,7 @@ try {
   process.exit(0);
 }
 
-updater();
+updater(rules.auto_update);
 
 var state = null;
 
@@ -65,7 +65,10 @@ function exec_script(site, func, browser){
 }
 
 function get_state(){
-  return Promise.map(Object.keys(rules), function(site){
+  var sites_list = Object.keys(rules).filter(function(key){
+      return key !== 'auto_update';
+  });
+  return Promise.map(sites_list, function(site){
     var func = rules[site].is_playing;
     return Promise.map(browsers, function(browser){
       return exec_script(site, func, browser).then(function(data){
