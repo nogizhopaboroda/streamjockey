@@ -1,6 +1,12 @@
 # stream jockey
 Media streaming services orchestration for OSX
 
+## Requirements
+
+- Os: Mac OS
+- Browser: Chrome or Safari
+- ***If node version >= 4 : XCode 7***
+
 ## Demo
 
 ## Installation
