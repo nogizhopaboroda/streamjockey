@@ -125,47 +125,27 @@ function prev_next(direction){
     var active_sites = data.filter(function(item){
       return item.is_playing;
     });
-    return Promise.map(
-      active_sites,
-      function(item){
-        var func = rules[item.site][direction];
-        if(!func){
-          return Object.assign({}, item, { success: false })
-        }
-        return exec_script(
-          item.site,
-          func,
-          item.browser
-        ).then(function(response){
-          return Object.assign({}, response, { success: true });
-        });
-      }
-    );
+    !active_sites.length && console.log('nothing is playing now');
+    return Promise.map( active_sites, function(item){
+      var func = rules[item.site][direction];
+      if(!func){ return Object.assign({}, item, { success: false }) }
+      return exec_script(item.site, func, item.browser).then(function(response){
+        return Object.assign({}, response, { success: true });
+      });
+    });
   })
   .then(function(data){
     data.forEach(function(item){
-      if(item.success){
-        console.log([
-          'playing',
-          direction,
-          'media of',
-          item.site,
-          'in browser',
-          item.browser
-        ].join(' '));
-      } else {
-        console.log([
-          'method',
-          direction,
-          'of',
-          item.site,
-          'doesnt exist'
-        ].join(' '));
-      }
+      item.success
+      ? console.log([
+        'playing', direction, 'media of', item.site, 'in browser', item.browser
+      ].join(' '))
+      : console.log([
+        'method', direction, 'of', item.site, 'doesnt exist'
+      ].join(' '));
     });
   })
 }
-
 
 mediakeys.on('play', function(){
   play_pause();
