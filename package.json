@@ -1,6 +1,6 @@
 {
   "name": "streamjockey",
-  "version": "0.1",
+  "version": "0.1.0",
   "description": "Media streaming services orchestration for OSX",
   "main": "index.js",
   "bin": {
