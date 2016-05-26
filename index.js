@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+var updater = require('./updater');
 var applescript = require('applescript');
 var Promise = require('bluebird');
 var mediakeys = require('mediakeys').listen();
