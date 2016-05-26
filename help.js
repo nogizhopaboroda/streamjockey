@@ -2,7 +2,7 @@ module.exports = {
   "print_help": function(){
     console.log(
       (function(){/*
-      Usage: streamjockey <rcfile>
+      Usage: streamjockey [rcfile]
       Options:
         -h, --help            output usage information
         -v, --version         output the version number
