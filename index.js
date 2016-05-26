@@ -21,6 +21,8 @@ try {
   process.exit(0);
 }
 
+updater();
+
 var state = null;
 
 function build_script(site, func, browser){
