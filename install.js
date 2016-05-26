@@ -7,7 +7,7 @@ var RC_FILE     = HOME_DIR + "/.sjrc.js";
 
 var TEMPLATE = (function(){
   module.exports = {
-    "nogizhopaboroda.github.io/stream-jockey": {
+    "nogizhopaboroda.github.io/streamjockey": {
       "play": function(){
         console.log('play button pressed');
         document.querySelector('#play_button').click();
