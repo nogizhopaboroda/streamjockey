@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var applescript = require('applescript');
 var Promise = require('bluebird');
 var mediakeys = require('mediakeys').listen();
