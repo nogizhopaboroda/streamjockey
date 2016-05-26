@@ -10,17 +10,11 @@
   "scripts": {
     "postinstall": "./install.js"
   },
-  "auto-updater":{
-    "repo": "nogizhopaboroda/streamjockey",
-    "branch": "master"
-  },
   "author": "Alexander Zhukov",
   "license": "ISC",
   "dependencies": {
     "applescript": "^1.0.0",
-    "auto-updater": "^1.0.2",
     "bluebird": "^3.4.0",
-    "mediakeys": "git+ssh://git@github.com/nogizhopaboroda/mediakeys.git",
-    "npm": "^3.9.2"
+    "mediakeys": "git+ssh://git@github.com/nogizhopaboroda/mediakeys.git"
   }
 }

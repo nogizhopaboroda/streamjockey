@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-var updater = require('./updater');
 var applescript = require('applescript');
 var Promise = require('bluebird');
 var mediakeys = require('mediakeys').listen();
@@ -20,8 +19,6 @@ try {
   console.log("can't load settings file: ".concat(rules_file));
   process.exit(0);
 }
-
-updater(rules.auto_update);
 
 var state = null;
 
@@ -65,10 +62,7 @@ function exec_script(site, func, browser){
 }
 
 function get_state(){
-  var sites_list = Object.keys(rules).filter(function(key){
-      return key !== 'auto_update';
-  });
-  return Promise.map(sites_list, function(site){
+  return Promise.map(Object.keys(rules), function(site){
     var func = rules[site].is_playing;
     return Promise.map(browsers, function(browser){
       return exec_script(site, func, browser).then(function(data){
