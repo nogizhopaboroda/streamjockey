@@ -1,13 +1,12 @@
 # stream jockey
-Media streaming services orchestration for OSX
+
+Stream Jockey provides you a way to control media streaming services (like soundcloud, mixcloud, youtube, etc) in browser. Right in the existing instance of your browser where you read this message.
 
 ## Requirements
 
 - Os: Mac OS
 - Browser: Chrome or Safari
 - ***If node version >= 4 : XCode 7***
-
-## Demo
 
 ## Installation
 ```shell
@@ -19,6 +18,14 @@ git clone git@github.com:nogizhopaboroda/streamjockey.git
 cd streamjockey
 npm install
 ```
+
+Then run the application
+```shell
+streamjockey
+```
+and go to the demo page http://nogizhopaboroda.github.io/streamjockey#demo
+
+to make sure that application works well
 
 ## Usage
 
@@ -34,6 +41,7 @@ streamjockey -h
 ***
 
 ## RC file
+RC file should be a valid nodejs module.
 
 ## How it works
 
