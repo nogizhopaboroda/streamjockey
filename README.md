@@ -41,7 +41,36 @@ streamjockey -h
 ***
 
 ## RC file
-RC file should be a valid nodejs module.
+RC file should be a valid nodejs module and consist of key-value pairs 
+
+where key is url matcher and value contains at least this 3 functions: *play*, *pause*, *is_playing* 
+
+Example:
+```js
+module.exports = {
+  "<url_matcher>": { //e.g.: "nogizhopaboroda.github.io/streamjockey"
+    /* required functions */
+    "play": function(){
+      document.querySelector('<play button selector>').click();
+      return 'play'; //return is optional
+    },
+    "pause": function(){
+      document.querySelector('<pause button selector>').click();
+      return 'pause';
+    },
+    "is_playing": function(){
+      return document.querySelector('<play/pause button selector>').classList.contains('playing');
+    },
+    /* optional functions */
+    "next": function(){
+      document.querySelector('<next button selector>').click();
+    },
+    "prev": function(){
+      document.querySelector('<prev button selector>').click();
+    },
+  }
+}
+```
 
 ## How it works
 
