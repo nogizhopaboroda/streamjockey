@@ -1,5 +1,7 @@
 # stream jockey
 
+[Work in progress]
+
 Stream Jockey provides you a way to control media streaming services (like soundcloud, mixcloud, youtube, etc) in browser. Right in the existing instance of your browser where you read this message.
 
 ## Requirements
