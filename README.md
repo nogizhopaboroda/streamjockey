@@ -49,7 +49,7 @@ streamjockey -h
 ***
 run as a daemon:
 ```shell
-nohup streamjockey > /dev/null &
+streamjockey > /dev/null &; disown
 ```
 ***
 
