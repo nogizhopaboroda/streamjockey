@@ -25,11 +25,10 @@ Then run the application
 ```shell
 streamjockey
 ```
-or
+or in case you've chosen variant with cloning repository
 ```shell
 node index.js
 ```
-in case you've chosen variant with cloning repository
 
 then go to the demo page http://nogizhopaboroda.github.io/streamjockey#demo
 
@@ -47,7 +46,7 @@ streamjockey -h
         -v, --version         output the version number
 ```
 ***
-run as a daemon:
+*run as a daemon*:
 ```shell
 streamjockey > /dev/null &; disown
 ```
