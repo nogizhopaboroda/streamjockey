@@ -46,7 +46,10 @@ streamjockey -h
         -v, --version         output the version number
 ```
 ***
-*run as a daemon*:
+
+## Run as a daemon:
+
+***
 ```shell
 streamjockey > /dev/null &; disown
 ```
