@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Streamjockey by nogizhopaboroda</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Streamjockey</h1>
+      <h2 class="project-tagline">Media streaming services orchestration for OSX</h2>
+      <a href="https://github.com/nogizhopaboroda/streamjockey" class="btn">View on GitHub</a>
+      <a href="https://github.com/nogizhopaboroda/streamjockey/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/nogizhopaboroda/streamjockey/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="stream-jockey" class="anchor" href="#stream-jockey" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>stream jockey</h1>
+
+<p>[Work in progress]</p>
+
+<p>Stream Jockey provides you a way to control media streaming services (like soundcloud, mixcloud, youtube, etc) in browser. Right in the existing instance of your browser where you read this message.</p>
+
+<h2>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Requirements</h2>
+
+<ul>
+<li>Os: Mac OS</li>
+<li>Browser: Chrome or Safari</li>
+<li><strong><em>If node version &gt;= 4 : XCode 7</em></strong></li>
+</ul>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<div class="highlight highlight-source-shell"><pre>npm install -g streamjockey</pre></div>
+
+<p>or</p>
+
+<div class="highlight highlight-source-shell"><pre>git clone git@github.com:nogizhopaboroda/streamjockey.git
+<span class="pl-c1">cd</span> streamjockey
+npm install</pre></div>
+
+<p>Then run the application</p>
+
+<div class="highlight highlight-source-shell"><pre>streamjockey</pre></div>
+
+<p>or in case you've chosen variant with cloning repository</p>
+
+<div class="highlight highlight-source-shell"><pre>node index.js</pre></div>
+
+<p>then go to the demo page <a href="http://nogizhopaboroda.github.io/streamjockey#demo">http://nogizhopaboroda.github.io/streamjockey#demo</a></p>
+
+<p>to make sure that application works well</p>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<hr>
+
+<div class="highlight highlight-source-shell"><pre>streamjockey -h
+
+      Usage: streamjockey [rcfile]
+      Options:
+        -h, --help            output usage information
+        -v, --version         output the version number</pre></div>
+
+<hr>
+
+<h2>
+<a id="run-as-a-daemon" class="anchor" href="#run-as-a-daemon" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Run as a daemon:</h2>
+
+<hr>
+
+<div class="highlight highlight-source-shell"><pre>streamjockey <span class="pl-k">&gt;</span> /dev/null <span class="pl-k">&amp;;</span> <span class="pl-c1">disown</span></pre></div>
+
+<hr>
+
+<h2>
+<a id="rc-file" class="anchor" href="#rc-file" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>RC file</h2>
+
+<hr>
+
+<p>RC file should be a valid nodejs module and consist of key-value pairs </p>
+
+<p>where key is <strong>url matcher</strong> and value contains at least this 3 functions: <strong>play</strong>, <strong>pause</strong>, <strong>is_playing</strong></p>
+
+<p>optionally there might be functions <strong>prev</strong> and <strong>next</strong></p>
+
+<hr>
+
+<p>after installation application saves default RC file here: <code>~/.sjrc.js</code> with snippets for page
+<a href="http://nogizhopaboroda.github.io/streamjockey#demo">http://nogizhopaboroda.github.io/streamjockey#demo</a></p>
+
+<p>check it out to get into</p>
+
+<hr>
+
+<p>all the functions should be javascript snippets that can be executable on target page, e.g.:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-c1">document</span>.<span class="pl-en">querySelector</span>(<span class="pl-s"><span class="pl-pds">'</span>&lt;play button selector&gt;<span class="pl-pds">'</span></span>).<span class="pl-c1">click</span>();
+<span class="pl-c">//or</span>
+<span class="pl-c1">window</span>.<span class="pl-smi">AudioPlayerInstance</span>.<span class="pl-en">play</span>();</pre></div>
+
+<p>you can test them right in browser console on target page</p>
+
+<p><strong>play</strong>: plays media</p>
+
+<p><strong>pause</strong>: stops/pauses media</p>
+
+<p><strong>is_playing</strong>: should return <code>true</code> if media is playing and <code>false</code> or anything else if not</p>
+
+<p><strong>next</strong>: next media source</p>
+
+<p><strong>prev</strong>: previous media source</p>
+
+<p>Example:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-c1">module</span>.<span class="pl-smi">exports</span> <span class="pl-k">=</span> {
+  <span class="pl-s"><span class="pl-pds">"</span>&lt;url_matcher&gt;<span class="pl-pds">"</span></span><span class="pl-k">:</span> { <span class="pl-c">//e.g.: "nogizhopaboroda.github.io/streamjockey"</span>
+    <span class="pl-c">/* required functions */</span>
+    <span class="pl-s"><span class="pl-pds">"</span><span class="pl-en">play</span><span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-k">function</span>(){
+      <span class="pl-c1">document</span>.<span class="pl-en">querySelector</span>(<span class="pl-s"><span class="pl-pds">'</span>&lt;play button selector&gt;<span class="pl-pds">'</span></span>).<span class="pl-c1">click</span>();
+      <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">'</span>play<span class="pl-pds">'</span></span>; <span class="pl-c">//return is optional</span>
+    },
+    <span class="pl-s"><span class="pl-pds">"</span><span class="pl-en">pause</span><span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-k">function</span>(){
+      <span class="pl-c1">document</span>.<span class="pl-en">querySelector</span>(<span class="pl-s"><span class="pl-pds">'</span>&lt;pause button selector&gt;<span class="pl-pds">'</span></span>).<span class="pl-c1">click</span>();
+      <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">'</span>pause<span class="pl-pds">'</span></span>;
+    },
+    <span class="pl-s"><span class="pl-pds">"</span><span class="pl-en">is_playing</span><span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-k">function</span>(){
+      <span class="pl-c">//return is required</span>
+      <span class="pl-k">return</span> <span class="pl-c1">document</span>.<span class="pl-en">querySelector</span>(<span class="pl-s"><span class="pl-pds">'</span>&lt;play/pause button selector&gt;<span class="pl-pds">'</span></span>).<span class="pl-smi">classList</span>.<span class="pl-en">contains</span>(<span class="pl-s"><span class="pl-pds">'</span>playing<span class="pl-pds">'</span></span>);
+    },
+    <span class="pl-c">/* optional functions */</span>
+    <span class="pl-s"><span class="pl-pds">"</span><span class="pl-en">next</span><span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-k">function</span>(){
+      <span class="pl-c1">document</span>.<span class="pl-en">querySelector</span>(<span class="pl-s"><span class="pl-pds">'</span>&lt;next button selector&gt;<span class="pl-pds">'</span></span>).<span class="pl-c1">click</span>();
+    },
+    <span class="pl-s"><span class="pl-pds">"</span><span class="pl-en">prev</span><span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-k">function</span>(){
+      <span class="pl-c1">document</span>.<span class="pl-en">querySelector</span>(<span class="pl-s"><span class="pl-pds">'</span>&lt;prev button selector&gt;<span class="pl-pds">'</span></span>).<span class="pl-c1">click</span>();
+    },
+  }
+}</pre></div>
+
+<hr>
+
+<p>As long as RC file is node module, you can require one module from another, e.g.:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-c">// ~/.sjrc.js</span>
+<span class="pl-c1">module</span>.<span class="pl-smi">exports</span> <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>./.dotfiles/sjrc.js<span class="pl-pds">'</span></span>);</pre></div>
+
+<hr>
+
+<p>There might be more than one target sites. Streamjockey handles it well</p>
+
+<hr>
+
+<p>Just check out the demo if you still didn't do so. It can tell much more than text here</p>
+
+<h2>
+<a id="how-it-works" class="anchor" href="#how-it-works" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How it works</h2>
+
+<p>Application uses native binding for mediakeys interception (<a href="https://github.com/tcr/mediakeys">https://github.com/tcr/mediakeys</a>) and executes js code in browser using applescript.
+That's why there is no Firefox support - it's not scriptable.</p>
+
+<h2>
+<a id="bugsissuesfeature-requests" class="anchor" href="#bugsissuesfeature-requests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Bugs/Issues/Feature requests</h2>
+
+<p>Create new issue <a href="https://github.com/nogizhopaboroda/streamjockey/issues">here</a></p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/nogizhopaboroda/streamjockey">Streamjockey</a> is maintained by <a href="https://github.com/nogizhopaboroda">nogizhopaboroda</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
