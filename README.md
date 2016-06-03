@@ -47,6 +47,11 @@ streamjockey -h
         -v, --version         output the version number
 ```
 ***
+run as a daemon:
+```shell
+nohup streamjockey > /dev/null &
+```
+***
 
 ## RC file
 ***
@@ -58,7 +63,10 @@ optionally there might be functions **prev** and **next**
 
 ***
 
-after installation application saves default RC file here: `~/.sjrc.js` with snippets for page http://nogizhopaboroda.github.io/streamjockey#demo
+after installation application saves default RC file here: `~/.sjrc.js` with snippets for page
+http://nogizhopaboroda.github.io/streamjockey#demo
+
+check it out to get into
 
 ***
 
@@ -123,7 +131,7 @@ There might be more than one target sites. Streamjockey handles it well
 
 ***
 
-Just check out the demo if you still didn't do so. It can tell much more than text here. 
+Just check out the demo if you still didn't do so. It can tell much more than text here
 
 ## How it works
 Application uses native binding for mediakeys interception (https://github.com/tcr/mediakeys) and executes js code in browser using applescript.
