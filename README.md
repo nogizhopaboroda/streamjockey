@@ -25,7 +25,13 @@ Then run the application
 ```shell
 streamjockey
 ```
-and go to the demo page http://nogizhopaboroda.github.io/streamjockey#demo
+or
+```shell
+node index.js
+```
+in case you've chosen variant with cloning repository
+
+then go to the demo page http://nogizhopaboroda.github.io/streamjockey#demo
 
 to make sure that application works well
 
@@ -43,9 +49,37 @@ streamjockey -h
 ***
 
 ## RC file
+***
 RC file should be a valid nodejs module and consist of key-value pairs 
 
-where key is url matcher and value contains at least this 3 functions: *play*, *pause*, *is_playing* 
+where key is **url matcher** and value contains at least this 3 functions: **play**, **pause**, **is_playing**
+
+optionally there might be functions **prev** and **next**
+
+***
+
+after installation application saves default RC file here: `~/.sjrc.js` with snippets for page http://nogizhopaboroda.github.io/streamjockey#demo
+
+***
+
+all the functions should be javascript snippets that can be executable on target page, e.g.:
+```js
+document.querySelector('<play button selector>').click();
+//or
+window.AudioPlayerInstance.play();
+```
+
+you can test them right in browser console on target page
+
+**play**: plays media
+
+**pause**: stops/pauses media
+
+**is_playing**: should return `true` if media is playing and `false` or anything else if not
+
+**next**: next media source
+
+**prev**: previous media source
 
 Example:
 ```js
@@ -61,6 +95,7 @@ module.exports = {
       return 'pause';
     },
     "is_playing": function(){
+      //return is required
       return document.querySelector('<play/pause button selector>').classList.contains('playing');
     },
     /* optional functions */
@@ -74,7 +109,25 @@ module.exports = {
 }
 ```
 
+***
+
+As long as RC file is node module, you can require one module from another, e.g.:
+```js
+// ~/.sjrc.js
+module.exports = require('./.dotfiles/sjrc.js');
+```
+
+***
+
+There might be more than one target sites. Streamjockey handles it well
+
+***
+
+Just check out the demo if you still didn't do so. It can tell much more than text here. 
+
 ## How it works
+Application uses native binding for mediakeys interception (https://github.com/tcr/mediakeys) and executes js code in browser using applescript.
+That's why there is no Firefox support - it's not scriptable.
 
 ## Bugs/Issues/Feature requests
 Create new issue [here](https://github.com/nogizhopaboroda/streamjockey/issues)
