@@ -8,21 +8,19 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/fontello.css" media="screen">
   </head>
   <body>
     <section class="page-header">
       <h1 class="project-name">Streamjockey</h1>
       <h2 class="project-tagline">Media streaming services orchestration for OSX</h2>
       <a href="https://github.com/nogizhopaboroda/streamjockey" class="btn">View on GitHub</a>
-      <a href="https://github.com/nogizhopaboroda/streamjockey/zipball/master" class="btn">Download .zip</a>
-      <a href="https://github.com/nogizhopaboroda/streamjockey/tarball/master" class="btn">Download .tar.gz</a>
     </section>
 
     <section class="main-content">
       <h1>
 <a id="stream-jockey" class="anchor" href="#stream-jockey" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>stream jockey</h1>
 
-<p>[Work in progress]</p>
 
 <p>Stream Jockey provides you a way to control media streaming services (like soundcloud, mixcloud, youtube, etc) in browser. Right in the existing instance of your browser where you read this message.</p>
 
@@ -54,13 +52,45 @@ npm install</pre></div>
 
 <div class="highlight highlight-source-shell"><pre>node index.js</pre></div>
 
-<p>then go to the demo page <a href="http://nogizhopaboroda.github.io/streamjockey#demo">http://nogizhopaboroda.github.io/streamjockey#demo</a></p>
+<p><a href="#demo">then go to the demo section</a></p>
 
 <p>to make sure that application works well</p>
 
 <h2><a id="demo" class="anchor" href="#demo" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Demo</h2>
 <hr>
-demo is coming soon
+<div class="hint-block">
+    <i>
+        Run Streamjockey.
+        <br/>
+        Try to click any player button. Then try to click same mediabutton on keyboard.
+        <br/>
+        If StreamJockey installed successfuly and is running now,
+        pushing mediakeys buttons on keyboard should cause the same effect.
+    </i>
+</div>
+<div class="player">
+    <div class="buttons-section">
+        <span class="player-button">
+            <i class="icon-fast-backward" id="prev_button"></i>
+        </span>
+        <span class="player-button">
+            <i class="icon-play" id="play_pause_button"></i>
+        </span>
+        <span class="player-button">
+            <i class="icon-fast-forward" id="next_button"></i>
+        </span>
+    </div>
+    <div class="equaliser-section">
+        <div class="bar-c">
+            <div id="bar-1" class="bar"></div>
+            <div id="bar-2" class="bar"></div>
+            <div id="bar-3" class="bar"></div>
+            <div id="bar-4" class="bar"></div>
+            <div id="bar-5" class="bar"></div>
+            <div id="bar-6" class="bar"></div>
+        </div>
+    </div>
+</div>
 <hr>
 
 <h2>
@@ -185,6 +215,7 @@ That's why there is no Firefox support - it's not scriptable.</p>
 
     </section>
 
-  
+    <script src="/javascript/index.js"></script>
+
   </body>
 </html>
