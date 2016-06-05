@@ -30,7 +30,7 @@ var TEMPLATE = (function(){
       },
       "is_playing": function(){
         return document
-              .querySelector('#play_button')
+              .querySelector('#play_pause_button')
               .classList
               .contains('is-playing');
       }
