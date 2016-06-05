@@ -10,12 +10,12 @@ var TEMPLATE = (function(){
     "nogizhopaboroda.github.io/streamjockey": {
       "play": function(){
         console.log('play button pressed');
-        document.querySelector('#play_button').click();
+        document.querySelector('#play_pause_button').click();
         return true;
       },
       "pause": function(){
         console.log('pause button pressed');
-        document.querySelector('#pause_button').click();
+        document.querySelector('#play_pause_button').click();
         return false;
       },
       "next": function(){
