@@ -133,6 +133,10 @@ There might be more than one target sites. Streamjockey handles it well
 
 Just check out the demo if you still didn't do so. It can tell much more than text here
 
+## Streamjockey snippets
+
+You can find snippets [here](https://github.com/nogizhopaboroda/streamjockey/wiki/Streamjockey-Snippets)
+
 ## How it works
 Application uses native binding for mediakeys interception (https://github.com/tcr/mediakeys) and executes js code in browser using applescript.
 That's why there is no Firefox support - it's not scriptable.
