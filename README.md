@@ -133,7 +133,7 @@ There might be more than one target sites. Streamjockey handles it well
 
 Just check out the demo if you still didn't do so. It can tell much more than text here
 
-## Streamjockey snippets
+## Streamjockey RC file snippets
 
 You can find snippets [here](https://github.com/nogizhopaboroda/streamjockey/wiki/Streamjockey-Snippets)
 
